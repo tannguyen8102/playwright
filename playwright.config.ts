@@ -1,4 +1,4 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 import { config } from "./config";
 
 export default defineConfig({
@@ -21,4 +21,10 @@ export default defineConfig({
   },
   timeout: 120000,
   reporter: [["html"]],
+  projects: [
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+    },
+  ],
 });

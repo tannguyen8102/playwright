@@ -4,7 +4,7 @@ export const checkoutInfo = {
   company: "AGEST",
   country: "Vietnam",
   address1: "36 Tran Quoc tuan",
-  address2: "36 Tran Quoc tuan",
+  address2: "346 duong 2/9",
   city: "Hai Chau",
   state: "Da Nang",
   zipcode: "33139",

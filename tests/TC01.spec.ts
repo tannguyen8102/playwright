@@ -5,6 +5,7 @@ import { ProductPage } from "../pages/productPage";
 import { CartPage } from "../pages/cartPage";
 import { CheckoutPage } from "../pages/checkoutPage";
 import { Departments } from "../constants/departments";
+import { PaymentMethod } from "../constants/paymentMethod";
 import { checkoutInfo } from "../data/checkoutInfo";
 
 test("Verify users can buy an item successfully", async ({ page }) => {
@@ -17,7 +18,6 @@ test("Verify users can buy an item successfully", async ({ page }) => {
   // 1. Open browser and go to https://demo.testarchitect.com/
   // 2. Login with valid credentials
   await loginPage.navigateTo("/my-account");
-  await loginPage.acceptCookieIfVisible();
   await loginPage.login(config.userEmail, config.userPassword);
 
   await loginPage.navigateTo("/cart");
@@ -49,7 +49,10 @@ test("Verify users can buy an item successfully", async ({ page }) => {
   await checkoutPage.expectItemDetailsInOrder(items);
   // 15. Fill the billing details with default payment method
   // 16. Click on PLACE ORDER
-  await checkoutPage.placeOrder(checkoutInfo);
+  await checkoutPage.placeOrder(
+    checkoutInfo,
+    PaymentMethod.DIRECT_BANK_TRANSFER
+  );
   // 16. Verify Order status page displays
   await checkoutPage.expectOrderPageDisplayed();
   // 17. Verify the Order details with billing and item information

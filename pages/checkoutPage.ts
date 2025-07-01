@@ -60,9 +60,9 @@ export class CheckoutPage extends BasePage {
     await this.page.getByText(paymentMethod).click();
   }
 
-  async placeOrder(info: any) {
+  async placeOrder(info: any, paymentMethod: string) {
     await this.fillBillingDetails(info);
-    await this.selectPaymentMethod(info.paymentMethod);
+    await this.selectPaymentMethod(paymentMethod);
     await this.orderButton.click();
   }
 

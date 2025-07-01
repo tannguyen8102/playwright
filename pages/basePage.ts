@@ -22,11 +22,7 @@ export class BasePage {
     await menuItem.click();
   }
 
-  async acceptCookieIfVisible() {
-    const banner = this.page.locator("#cookie-notice");
-    if (await banner.isVisible()) {
-      await this.page.locator("#cn-accept-cookie").click();
-      await banner.waitFor({ state: "hidden" });
-    }
+  async closeAdIfVisible() {
+    await this.page.locator(".pum-active .pum-close").click();
   }
 }
