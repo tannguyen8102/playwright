@@ -1,0 +1,15 @@
+export const checkoutInfo = {
+  firstName: "Tan",
+  lastName: "Nguyen",
+  company: "AGEST",
+  country: "Vietnam",
+  address1: "36 Tran Quoc tuan",
+  address2: "36 Tran Quoc tuan",
+  city: "Hai Chau",
+  state: "Da Nang",
+  zipcode: "33139",
+  phone: "+84123123123",
+  email: "tan.trong.nguyen@agest.vn",
+  notes: "Giao gio hanh chinh",
+  paymentMethod: "Direct bank transfer",
+} as const;

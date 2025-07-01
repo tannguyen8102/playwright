@@ -1,9 +1,9 @@
-import { expect, Page } from '@playwright/test';
-import { BasePage } from './basePage';
+import { expect } from "@playwright/test";
+import { BasePage } from "./basePage";
 
 export class LoginPage extends BasePage {
-  private usernameInput = this.page.locator('#username');
-  private passwordInput = this.page.locator('#password');
+  private usernameInput = this.page.locator("#username");
+  private passwordInput = this.page.locator("#password");
   private loginButton = this.page.locator('[name="login"]');
 
   async login(username: string, password: string) {
@@ -13,6 +13,6 @@ export class LoginPage extends BasePage {
   }
 
   async assertLoginSuccess() {
-    await expect(this.page.locator('text=Welcome')).toBeVisible();
+    await expect(this.page.locator("text=Welcome")).toBeVisible();
   }
 }

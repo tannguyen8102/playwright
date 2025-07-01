@@ -1,43 +1,43 @@
-import { expect, Page } from '@playwright/test';
-import { BasePage } from './basePage';
+import { expect, Locator } from "@playwright/test";
+import { BasePage } from "./basePage";
+import { getUniqueRandomIndices } from "../utils/random";
 
 export class ProductPage extends BasePage {
-  async switchToView(view: 'grid' | 'list') {
+  async switchToView(view: "grid" | "list") {
     const btnSwitch = this.page.locator(`.switch-${view}`);
     await btnSwitch.click();
   }
 
-  async expectView(view: 'grid' | 'list') {
-    const container = this.page.locator('.products-loop');
+  async expectView(view: "grid" | "list") {
+    const container = this.page.locator(".products-loop");
     await expect(container).toHaveClass(new RegExp(`\\bproducts-${view}\\b`));
   }
 
   get productItems(): Locator {
-    return this.page.locator('.products-loop .product');
+    return this.page.locator(".products-loop .product");
   }
 
   async getTotalProductItems(): Promise<number> {
     return await this.productItems.count();
   }
 
-  async getRandomProductItem(): Promise<[Locator, string, string]> {
-    const count = await this.getTotalProductItems();
-    if (count === 0) throw new Error('No product found on the page.');
-    const randomIndex = Math.floor(Math.random() * count);
-    const productLocator = this.productItems.nth(randomIndex);
-    const title = await productLocator.locator('.product-title a').innerText();
-    const price = await productLocator.locator('span.price bdi').last().innerText();
-    return [productLocator, title, price];
-  }
+  async addRandomProductToCart(n: number): Promise<[string, string][]> {
+    const total = await this.getTotalProductItems();
 
-  async getRandomProductName(): Promise<string> {
-    const randomItem = await this.getRandomProductItem();
-    const title = randomItem.locator('.product-title a');
-    return await title.innerText();
-  }
+    if (total === 0) throw new Error("No products found on the page.");
+    if (n > total)
+      throw new Error(`Requested ${n} products, but only found ${total}.`);
 
-  async addProductToCart(productLocator: Locator): Promise<void> {
-    await productLocator.locator('.add_to_cart_button').first().click();
-  }
+    const indices = getUniqueRandomIndices(n, total);
+    const results: [string, string][] = [];
 
+    for (const index of indices) {
+      const product = this.productItems.nth(index);
+      const title = await product.locator(".product-title a").innerText();
+      const price = await product.locator("span.price bdi").last().innerText();
+      await product.locator(".add_to_cart_button").first().click();
+      results.push([title, price]);
+    }
+    return results;
+  }
 }
