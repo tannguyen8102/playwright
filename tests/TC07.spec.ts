@@ -9,7 +9,7 @@ import { checkoutInfo } from "../data/checkoutInfo";
 import { RequiredMessage } from "../constants/messages";
 
 for (const [key, value] of Object.entries(RequiredMessage)) {
-  test(`User can place an order with multiple items: ${value}`, async ({
+  test(`Ensure proper error handling when mandatory fields are blank: ${value}`, async ({
     page,
   }) => {
     const checkoutInfoUpdate = { ...checkoutInfo, [key]: "" };
