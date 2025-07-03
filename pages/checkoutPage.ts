@@ -73,7 +73,7 @@ export class CheckoutPage extends BasePage {
     await expect(this.page).toHaveURL(/\/order-received\/?/);
   }
 
-  async expectOrderInfoDisplayed(info: any, items: any) {
+  async expectOrderedBillingAddressDisplayed(info: any) {
     const billingAddress = await this.page.locator("address").innerText();
 
     expect(billingAddress).toContain(info.firstName);
@@ -84,9 +84,11 @@ export class CheckoutPage extends BasePage {
     expect(billingAddress).toContain(info.country);
     expect(billingAddress).toContain(info.phone);
     expect(billingAddress).toContain(info.email);
+  }
+
+  async expectOrderedProductDisplayed(items: any) {
     for (let i = 0; i < items.count; i++) {
       const [name, price] = items[i];
-      const cartItem = this.page.locator(".order_item").nth(i);
       const productName = await this.page
         .locator("td.product-name a")
         .innerText();
@@ -96,5 +98,15 @@ export class CheckoutPage extends BasePage {
       expect(productName).toMatch(new RegExp(name, "i"));
       expect(productTotal).toBe(price);
     }
+  }
+
+  async expectOrderInfoDisplayed(info: any, items: any) {
+    this.expectOrderedBillingAddressDisplayed(info);
+    this.expectOrderedProductDisplayed(items);
+  }
+
+  async expectHighlightMissingFields(message: string) {
+    const errorLabel = this.page.getByText(message);
+    expect(await errorLabel.isVisible());
   }
 }

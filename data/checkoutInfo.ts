@@ -12,4 +12,4 @@ export const checkoutInfo = {
   email: "tan.trong.nguyen@agest.vn",
   notes: "Giao gio hanh chinh",
   paymentMethod: "Direct bank transfer",
-} as const;
+};
