@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 
 export class BasePage {
   constructor(protected page: Page) {}
@@ -24,5 +24,22 @@ export class BasePage {
 
   async closeAdIfVisible() {
     await this.page.locator(".pum-active .pum-close").click();
+  }
+
+  acceptDialog() {
+    this.page.on("dialog", async (dialog) => {
+      await dialog.accept();
+    });
+  }
+
+  async waitForTextChange(locator: Locator, timeout = 10000): Promise<void> {
+    const oldText = await locator.textContent();
+    const start = Date.now();
+
+    while (Date.now() - start < timeout) {
+      const newText = await locator.textContent();
+      if (newText !== oldText) return;
+      await new Promise((res) => setTimeout(res, 200));
+    }
   }
 }

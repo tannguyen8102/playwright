@@ -76,4 +76,32 @@ export class ProductPage extends BasePage {
       }
     }
   }
+
+  async openRandomProduct() {
+    const total = await this.getTotalProductItems();
+    if (total === 0) throw new Error("No products found on the page.");
+    const indices = getUniqueRandomIndices(1, total);
+    for (const index of indices) {
+      const product = this.productItems.nth(index);
+      await product.locator(".product-title a").click();
+    }
+  }
+
+  async openReviews() {
+    await this.page.locator(".tabs-nav #tab_reviews").click();
+  }
+
+  async addReviews(star: number, comment: string) {
+    await this.page.locator(`a.star-${star}`).click();
+    await this.page.locator("#comment").fill(comment);
+    await this.page.locator("#submit").click();
+  }
+
+  async expectCommentAdded(star: number, comment: string) {
+    const latestReview = this.page.locator("li.review").last();
+    const rating = await latestReview.locator(".rating").innerText();
+    const cmt = await latestReview.locator(".description").innerText();
+    expect(Number(rating)).toBe(star);
+    expect(cmt).toBe(comment);
+  }
 }

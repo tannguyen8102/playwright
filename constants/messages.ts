@@ -2,6 +2,10 @@ export const CheckoutMessages = {
   ORDER_SUCCESS: "Thank you. Your order has been received.",
 } as const;
 
+export const CartMessages = {
+  EMPTY_CART: "YOUR SHOPPING CART IS EMPTY",
+} as const;
+
 export const RequiredMessage = {
   firstName: "Billing First name is a required field.",
   lastName: "Billing Last name is a required field.",

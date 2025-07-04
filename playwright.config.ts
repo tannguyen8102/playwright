@@ -7,7 +7,7 @@ export default defineConfig({
     baseURL: config.baseURL,
     browserName: "chromium",
     viewport: { width: 1920, height: 1080 },
-    headless: true,
+    headless: false,
     screenshot: "only-on-failure",
     video: "retain-on-failure",
     trace: "on",
